@@ -18,25 +18,21 @@ router.route("/").get(verifyToken, userController.getUsers);
 router
   .route("/:id")
   .get(verifyToken, userController.getUserById)
-  .put(verifyToken, upload.single("profileImage"), userController.updateUser)
+  .put(verifyToken, upload.single("profilePhoto"), userController.updateUser)
   .delete(verifyToken, userController.deleteUser);
 
 // =============================================
-// CRUD CON ARRAYS - DIRECCIONES
+// CRUD CON ARRAYS - CONTACTOS DE EMERGENCIA
 // =============================================
 
-// GET    /api/users/:id/addresses             - Ver direcciones
-// POST   /api/users/:id/addresses             - Agregar dirección
 router
-  .route("/:id/addresses")
-  .get(verifyToken, userController.getAddresses)
-  .post(verifyToken, userController.addAddress);
+  .route("/:id/emergency-contacts")
+  .get(verifyToken, userController.getEmergencyContacts)
+  .post(verifyToken, userController.addEmergencyContact);
 
-// PUT    /api/users/:id/addresses/:addressId  - Editar una dirección
-// DELETE /api/users/:id/addresses/:addressId  - Eliminar una dirección
 router
-  .route("/:id/addresses/:addressId")
-  .put(verifyToken, userController.updateAddress)
-  .delete(verifyToken, userController.deleteAddress);
+  .route("/:id/emergency-contacts/:contactId")
+  .put(verifyToken, userController.updateEmergencyContact)
+  .delete(verifyToken, userController.deleteEmergencyContact);
 
 export default router;

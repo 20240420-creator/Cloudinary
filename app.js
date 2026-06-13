@@ -7,8 +7,11 @@ import registerRoutes from "./src/routes/register.js";
 import loginRoutes from "./src/routes/login.js";
 import logoutRoutes from "./src/routes/logout.js";
 import recoveryRoutes from "./src/routes/recovery.js";
-import productRoutes from "./src/routes/products.js";
 import userRoutes from "./src/routes/users.js";
+import equipmentRoutes from "./src/routes/equipments.js";
+import specialtyRoutes from "./src/routes/specialties.js";
+import appointmentRoutes from "./src/routes/appointments.js";
+import medicalRecordRoutes from "./src/routes/medicalRecords.js";
 
 const app = express();
 
@@ -27,7 +30,10 @@ app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/recovery", recoveryRoutes);
-app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/equipments", equipmentRoutes);
+app.use("/api/specialties", specialtyRoutes);
+app.use("/api/appointments", appointmentRoutes);
+app.use("/api/medical-records", medicalRecordRoutes);
 
 export default app;

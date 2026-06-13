@@ -47,7 +47,7 @@ userController.updateUser = async (req, res) => {
 
     // Si se subió una imagen, guardar la URL de Cloudinary
     if (req.file) {
-      updateData.profileImage = req.file.path;
+      updateData.profilePhoto = req.file.path;
     }
 
     const updatedUser = await userModel.findByIdAndUpdate(
@@ -87,24 +87,23 @@ userController.deleteUser = async (req, res) => {
 };
 
 // =============================================
-// CRUD CON ARRAYS - DIRECCIONES DEL USUARIO
+// CRUD CON ARRAYS - CONTACTOS DE EMERGENCIA
 // =============================================
 
-// POST - Agregar una dirección al array
-userController.addAddress = async (req, res) => {
+// POST - Agregar un contacto al array
+userController.addEmergencyContact = async (req, res) => {
   try {
-    const { street, city, state, zipCode, isDefault } = req.body;
+    const { phone, nameEmergencyContact } = req.body;
 
-    if (!street || !city || !state || !zipCode) {
-      return res.status(400).json({ message: "street, city, state y zipCode son obligatorios" });
+    if (!phone || !nameEmergencyContact) {
+      return res.status(400).json({ message: "phone y nameEmergencyContact son obligatorios" });
     }
 
-    const newAddress = { street, city, state, zipCode, isDefault: isDefault || false };
+    const newContact = { phone, nameEmergencyContact };
 
-    // $push agrega el objeto al array de addresses
     const user = await userModel.findByIdAndUpdate(
       req.params.id,
-      { $push: { addresses: newAddress } },
+      { $push: { phoneEmergencyContacts: newContact } },
       { new: true }
     ).select("-password");
 
@@ -112,70 +111,65 @@ userController.addAddress = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    return res.status(200).json({ message: "Dirección agregada", addresses: user.addresses });
+    return res.status(200).json({ message: "Contacto agregado", phoneEmergencyContacts: user.phoneEmergencyContacts });
   } catch (error) {
     console.log("error" + error);
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
-// GET - Obtener todas las direcciones de un usuario
-userController.getAddresses = async (req, res) => {
+// GET - Obtener todos los contactos de emergencia de un usuario
+userController.getEmergencyContacts = async (req, res) => {
   try {
-    const user = await userModel.findById(req.params.id).select("addresses");
+    const user = await userModel.findById(req.params.id).select("phoneEmergencyContacts");
 
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    return res.status(200).json({ addresses: user.addresses });
+    return res.status(200).json({ phoneEmergencyContacts: user.phoneEmergencyContacts });
   } catch (error) {
     console.log("error" + error);
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
-// PUT - Editar una dirección específica del array (por su _id)
-userController.updateAddress = async (req, res) => {
+// PUT - Editar un contacto específico del array (por su _id)
+userController.updateEmergencyContact = async (req, res) => {
   try {
-    const { street, city, state, zipCode, isDefault } = req.body;
-    const { id, addressId } = req.params;
+    const { phone, nameEmergencyContact } = req.body;
+    const { id, contactId } = req.params;
 
-    // addresses.$ actualiza el subdocumento que coincide con el filtro
     const user = await userModel.findOneAndUpdate(
-      { _id: id, "addresses._id": addressId },
+      { _id: id, "phoneEmergencyContacts._id": contactId },
       {
         $set: {
-          "addresses.$.street": street,
-          "addresses.$.city": city,
-          "addresses.$.state": state,
-          "addresses.$.zipCode": zipCode,
-          "addresses.$.isDefault": isDefault,
+          "phoneEmergencyContacts.$.phone": phone,
+          "phoneEmergencyContacts.$.nameEmergencyContact": nameEmergencyContact,
         },
       },
       { new: true }
     ).select("-password");
 
     if (!user) {
-      return res.status(404).json({ message: "Usuario o dirección no encontrada" });
+      return res.status(404).json({ message: "Usuario o contacto no encontrado" });
     }
 
-    return res.status(200).json({ message: "Dirección actualizada", addresses: user.addresses });
+    return res.status(200).json({ message: "Contacto actualizado", phoneEmergencyContacts: user.phoneEmergencyContacts });
   } catch (error) {
     console.log("error" + error);
     return res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
-// DELETE - Eliminar una dirección del array (por su _id)
-userController.deleteAddress = async (req, res) => {
+// DELETE - Eliminar un contacto del array (por su _id)
+userController.deleteEmergencyContact = async (req, res) => {
   try {
-    const { id, addressId } = req.params;
+    const { id, contactId } = req.params;
 
-    // $pull elimina el subdocumento que coincide con el _id
     const user = await userModel.findByIdAndUpdate(
       id,
-      { $pull: { addresses: { _id: addressId } } },
+      { $pull: { phoneEmergencyContacts: { _id: contactId } } },
       { new: true }
     ).select("-password");
 
@@ -183,7 +177,7 @@ userController.deleteAddress = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    return res.status(200).json({ message: "Dirección eliminada", addresses: user.addresses });
+    return res.status(200).json({ message: "Contacto eliminado", phoneEmergencyContacts: user.phoneEmergencyContacts });
   } catch (error) {
     console.log("error" + error);
     return res.status(500).json({ message: "Error interno del servidor" });
