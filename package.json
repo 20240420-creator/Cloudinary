@@ -1,31 +1,23 @@
 {
-  "name": "actividad-cloudinary",
+  "name": "cloudinary",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/20240420-creator/Cloudinary.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "API REST con Cloudinary, JWT, Nodemailer y CRUD con arrays",
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cloudinary": "^2.5.1",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.6",
-    "crypto": "^1.0.1",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.3.0",
-    "multer": "^2.1.1",
-    "multer-storage-cloudinary": "^4.0.0",
-    "nodemailer": "^8.0.5"
+  "bugs": {
+    "url": "https://github.com/20240420-creator/Cloudinary/issues"
   },
-  "devDependencies": {
+  "homepage": "https://github.com/20240420-creator/Cloudinary#readme",
+  "description": "",
+  "dependencies": {
     "nodemon": "^3.1.14"
   }
 }

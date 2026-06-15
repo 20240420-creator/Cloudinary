@@ -13,7 +13,7 @@ router.route("/:id")
   .put(verifyToken, medicalRecordController.updateMedicalRecord)
   .delete(verifyToken, medicalRecordController.deleteMedicalRecord);
 
-// CRUD for medications array
+
 router.route("/:id/medications")
   .post(verifyToken, medicalRecordController.addMedication);
 

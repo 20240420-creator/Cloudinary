@@ -5,16 +5,10 @@ import verifyToken from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// =============================================
-// CRUD BASICO DE USUARIOS
-// =============================================
 
-// GET    /api/users          - Obtener todos los usuarios
 router.route("/").get(verifyToken, userController.getUsers);
 
-// GET    /api/users/:id      - Obtener un usuario
-// PUT    /api/users/:id      - Actualizar (con foto de perfil)
-// DELETE /api/users/:id      - Eliminar usuario
+// GET    /api/users/:id      - Obtener un usuar
 router
   .route("/:id")
   .get(verifyToken, userController.getUserById)
